@@ -1,0 +1,24 @@
+We notice there is a feedback page at http://$IP/?page=feedback
+
+We try to inject a script tag into the feedback page to see if it is vulnerable to XSS.
+
+We try the following payload:
+<script>alert(1)</script>
+
+We submit the form and we get the flag.
+
+
+
+---------------------------------------------------------------------------------------
+
+
+
+Preventing XSS
+
+At a basic level, XSS works by tricking the application into inserting a <script> tag into the rendered page, or inserting an On* event into an element. Developers should use the following prevention steps to avoid introducing XSS into their applications:
+
+1. Never include untrusted data in HTML input unless you follow the other steps below. Untrusted data is any data that can be controlled by a cyberattacker, such as HTML form input, query strings, HTTP headers, or even data from a database, because a cyberattacker may be able to break into the database even if he can't break into the application.
+2. Before placing untrusted data in an HTML element, make sure it's HTML-encoded. HTML encoding takes characters like < and changes them to a secure form like &lt;.
+3. Before putting untrusted data into an HTML attribute, make sure it's HTML-encoded. HTML attribute encoding is a subset of HTML encoding and encodes double quotes ("), single quotes ('), ampersand (&), and less-than (<) characters.
+4. Before placing untrusted data in JavaScript, place the data in an HTML element that you can retrieve at runtime. If you can't do this, make sure the data is JavaScript-encoded. JavaScript encoding takes characters that are dangerous to JavaScript and replaces them with their hex values, for example, < would be encoded as \u003C.
+5. Before putting untrusted data into a URL query string, make sure it's URL encoded.

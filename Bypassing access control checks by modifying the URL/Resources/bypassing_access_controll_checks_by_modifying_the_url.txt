@@ -1,0 +1,7 @@
+We notice there are some redirects for social media sites, for example http://192.168.1.131/index.php?page=redirect&site=twitter
+
+We change the url to http://192.168.1.131/index.php?page=redirect&site=something
+
+And we get a flag.
+
+This vulnerability falls into Broken Access Control, https://owasp.org/Top10/A01_2021-Broken_Access_Control/

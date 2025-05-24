@@ -1,0 +1,11 @@
+We notice there is a cookie set with the value
+
+I_am_admin:"68934a3e9455fa72420237eb05902327"
+
+We search for what hash is used and find is MD5 and the plain value is "false"
+
+We generate an MD5 hash for "true" and change the cookie value to:
+
+I_am_admin:"b326b5062b2f0e69046810717534cb09"
+
+After refreshing the page we get a popup with the flag.

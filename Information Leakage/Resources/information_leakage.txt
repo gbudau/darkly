@@ -1,0 +1,22 @@
+We search for information leakage in $IP:/robots.txt
+
+There are two directories:
+
+User-agent: *
+Disallow: /whatever
+Disallow: /.hidden
+
+The /whatever path contains a htpasswd file
+
+We see that .hidden path contains various paths and subpaths, we scan them with wget:
+
+# -np omits parent directories, -r toggles recursive downloads, -l0 selects infinite download depth and -e robots=off cause it to ignore robots.txt
+wget -np -r -l0 -e robots=off http://$IP/.hidden/
+
+We search for the flag in the downloaded files:
+
+grep -r "flag" .    
+./$IP/.hidden/whtccjokayshttvxycsvykxcfm/igeemtxnvexvxezqwntmzjltkt/lmpanswobhwcozdqixbowvbrhw/README:Hey, here is your flag :
+d5eec3ec36cf80dce44a896f961c1831a05526ec215693c8f2c39543497d4466
+
+https://owasp.org/www-project-top-10-infrastructure-security-risks/docs/2024/ISR08_2024-Information_Leakage
