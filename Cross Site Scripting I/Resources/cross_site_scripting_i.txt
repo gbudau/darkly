@@ -7,11 +7,10 @@ We try the following payload:
 
 We submit the form and we get the flag.
 
+Additionally to this vulnerability, we've found a possible bug because it's possible to obtain the flag by just inserting the 'a' character in the Name field, which isn't any script, just a plain character. We believe this is due to a bad implementation of this flag vulenrability example.
 
 
 ---------------------------------------------------------------------------------------
-
-
 
 Preventing XSS
 
@@ -22,3 +21,4 @@ At a basic level, XSS works by tricking the application into inserting a <script
 3. Before putting untrusted data into an HTML attribute, make sure it's HTML-encoded. HTML attribute encoding is a subset of HTML encoding and encodes double quotes ("), single quotes ('), ampersand (&), and less-than (<) characters.
 4. Before placing untrusted data in JavaScript, place the data in an HTML element that you can retrieve at runtime. If you can't do this, make sure the data is JavaScript-encoded. JavaScript encoding takes characters that are dangerous to JavaScript and replaces them with their hex values, for example, < would be encoded as \u003C.
 5. Before putting untrusted data into a URL query string, make sure it's URL encoded.
+6. On the other hand, the best thing would be to separate the application logic from the visual content, avoiding concatenating user inputs with HTML code generated on the server. Using modern frameworks and libraries (like React, Angular, Vue, etc.) allows us to avoid injecting content into the DOM since these automatically sanitize the variables, treating as text everything that is dynamically inserted into the DOM.

@@ -1,4 +1,5 @@
-http://192.168.1.131/index.php?page=recover
+## HOW
+        Descubrimos un formulario oculto en la página de recuperación de contraseñas (http://192.168.1.131/index.php?page=recover). Al inspeccionarlo vemos que se están pre cargando valores en el formulario, los cuales se a través del atributo "hidden". Al cambiar el valor del input del form (con cualquier valor) y enviarlo obtenemos el flag
 
-TODO:
-Explain how we exploited the vulnerability in the Recover Password form.
+## FIX
+        No ocultar valores sensibles que puedan alterar el comportamiento de la aplicación en código de cliente. Este tipo de acciones se deben hacer siempre en backend de tal forma que un usuario no pueda manipularlo.
