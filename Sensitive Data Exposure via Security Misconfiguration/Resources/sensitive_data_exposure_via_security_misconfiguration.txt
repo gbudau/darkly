@@ -1,9 +1,26 @@
-We find an /admin path asking for a username and password
+We look for the existence of robots.txt file which helps search engines to decide which paths in our site can be crawled. And find:
 
-At /robots.txt we find there is a /whatever path and going there we find an publicly accessible htpasswd file with the following content:
+User-agent: *
+Disallow: /whatever
+Disallow: /.hidden
+
+At /robots.txt we look inside /whatever path and going there we find an publicly accessible htpasswd file with the following content:
+
+-----------<NOTA> Completar información sobre robots.txt y htpasswd------------------------
 
 root:437394baff5aa33daa618be47b75cb49
 
+`htpasswd` file is used to protect access to restricted files and routes inside Apache servers. 
+
 We identify the hash as MD5 with the value qwerty123@
 
+With this discovered credentials, we realize there is an /admin path asking for a username and password
+
 We login at /admin with username root and password qwerty123@ and get the flag
+
+------------------------------------------------------------------------------------
+
+Mitigating this attack sensitive data misconfiguration:
+
+Review the server configuration to deny access to these files, avoid placing sensitive files in public directories, and above all, do not add sensitive paths to the robots configuration.
+

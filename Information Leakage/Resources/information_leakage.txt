@@ -8,15 +8,39 @@ Disallow: /.hidden
 
 The /whatever path contains a htpasswd file
 
-We see that .hidden path contains various paths and subpaths, we scan them with wget:
+We see that .hidden path contains various paths and subpaths, we try to recursively download all contents from this path (.hidden):
 
+```bash
 # -np omits parent directories, -r toggles recursive downloads, -l0 selects infinite download depth and -e robots=off cause it to ignore robots.txt
 wget -np -r -l0 -e robots=off http://$IP/.hidden/
+```
 
-We search for the flag in the downloaded files:
+Then, we search for the flag in the downloaded files and find the flag is exposed in one of them:
 
+```bash
 grep -r "flag" .    
 ./$IP/.hidden/whtccjokayshttvxycsvykxcfm/igeemtxnvexvxezqwntmzjltkt/lmpanswobhwcozdqixbowvbrhw/README:Hey, here is your flag :
 d5eec3ec36cf80dce44a896f961c1831a05526ec215693c8f2c39543497d4466
+```
 
-https://owasp.org/www-project-top-10-infrastructure-security-risks/docs/2024/ISR08_2024-Information_Leakage
+--------------------------------
+
+How to mitigate information leakage
+
+In order to protect a specific resource, secret, sensitive information etc. to not be public we could add some authentication/authorization in order to only allow users with specific roles to access them.
+
+Aside from this, in order to protect ourselves from crawling, we could also use different tools and strategies to validate legitimate users:
+
+ - CAPTCHAs: help determine whether the request comes from a real user or a bot.
+ - Rate limiting: allows us to control the number of requests made by a client to prevent bots from quickly scanning our site, discouraging them by making it harder to scan our page efficiently over time.
+- Reviewing user-agent headers (although these can be easily spoofed) to detect what kind of client is requesting a resource.
+ - Cloudflare, using CDN services, firewalls, etc. that offer protection against crawling, DDoS attacks, etc.
+
+Interesting note:
+
+The goal of crawling is simply to discover new paths and URLs in order to keep a map of our website as up-to-date as possible.
+
+The goal of scraping is to extract information from the content of our website.
+
+Extended information about mitigating this vulnerability: h information leakage ttps://owasp.org/www-project-top-10-infrastructure-security-risks/docs/2024/ISR08_2024-Information_Leakage
+

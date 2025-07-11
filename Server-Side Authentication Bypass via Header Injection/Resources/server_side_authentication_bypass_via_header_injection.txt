@@ -1,9 +1,25 @@
 In the footer of the website there is a link to page=b7e44c7a40c5f80139f0a50f3650fb2bd8d00b0d24667c4c2ca32c88e13b758f
 
-We go to this page and inspect the source code
+We go to this page and inspect the source code and find the following html comments inside the main document:
 
-In the comments we see we must use the ft_bornToSec agent, and we must come from https://www.nsa.gov/
+            * <!--You must come from : "https://www.nsa.gov/".-->
+            * <!-- Let's use this browser : "ft_bornToSec". It will help you a lot.-->
 
-We can use curl to do this and we get the flag.
+We have the following idea:
+- When it says “You must come from,” it means we need to come from that page (using the Referer header).
+- When it says “Let’s use this browser,” it means we need to pretend we’re using that browser (using the User-Agent header).
 
+Then, we use curl to do build this fetch query and we get the flag:
+
+```bash
 curl -A ft_bornToSec --referer https://www.nsa.gov/ 'http://192.168.1.131/index.php?page=b7e44c7a40c5f80139f0a50f3650fb2bd8d00b0d24667c4c2ca32c88e13b758f' | grep flag
+```
+
+-----------------------------------------------------
+
+Mitigating server side authentication bypass via header injection:
+
+Once again, we’re relying on information that can be manipulated from the client side. A real authentication system should be implemented to securely validate the user’s identity, instead of depending on HTTP headers that can be easily forged to access protected resources.
+
+<NOTA>: Ampliar algo más sobre cómo funciona el Referer header y se relaciona con la directiva Referrer-policy
+
