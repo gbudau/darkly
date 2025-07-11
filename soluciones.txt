@@ -167,6 +167,10 @@
     ## FIX
         Otra vez, estamos fiándonos de información que se puede manipular desde cliente. Se debería implementar un sistema de autenticación real que valide la identidad del usuario de forma segura, en lugar de depender de headers HTTP que pueden ser falsificados trivialmente para acceder a recursos protegidos.
 
+
+---------------------- Hasta aquí llegamos el día 11/07/2025 ---------------------
+
+
 # 9. FORM - SURVEY
     ## FLAG
         03a944b434d5baff05f46c4bede5792551a2595574bcafc9a6e25f67c382ccaa
@@ -210,7 +214,8 @@
             `http://172.20.10.2/index.php?page=redirect&site=admin`
     ## FIX
         No fiarnos de inputs modificables en cliente para acceder a recursos sensibles
-        ??
+        Tener un "allow list" de sitios en los que confiamos que el usuario puede navegar con este mecanismo
+        Si no tenemos allow list, en lugar de forzar un redirect a través de un query param, enlazar los sitios directamente con anchors
 
 # 13. REFLECTED XSS
     ## FLAG
