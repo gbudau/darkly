@@ -1,8 +1,7 @@
-## HOW
 We discovered a hidden form on the password recovery page (http://$IP/index.php?page=recover).
 Upon inspecting it, we saw that values were being preloaded into the form through the "hidden" attribute.
 By changing the value of the form input (with any value) and submitting it, we obtained the flag.
 
-##FIX
+Mitigation:
 Do not hide sensitive values that could alter the behavior of the application in client-side code.
 These types of actions should always be handled on the backend so that a user cannot manipulate them.

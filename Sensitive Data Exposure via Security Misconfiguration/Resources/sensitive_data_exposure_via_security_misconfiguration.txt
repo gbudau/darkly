@@ -4,7 +4,7 @@ User-agent: *
 Disallow: /whatever
 Disallow: /.hidden
 
-At /robots.txt we look inside /whatever path and going there we find an publicly accessible htpasswd file with the following content:
+At /robots.txt we look inside /whatever path and going there we find a publicly accessible htpasswd file with the following content:
 
 root:437394baff5aa33daa618be47b75cb49
 

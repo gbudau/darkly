@@ -42,5 +42,5 @@ The goal of crawling is simply to discover new paths and URLs in order to keep a
 
 The goal of scraping is to extract information from the content of our website.
 
-Extended information about mitigating this vulnerability: h information leakage ttps://owasp.org/www-project-top-10-infrastructure-security-risks/docs/2024/ISR08_2024-Information_Leakage
+Extended information about mitigating this vulnerability: https://owasp.org/www-project-top-10-infrastructure-security-risks/docs/2024/ISR08_2024-Information_Leakage
 
