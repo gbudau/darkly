@@ -20,8 +20,17 @@ Do not expose resource authorization on the client side in a way that allows any
 The way to fix this is that, once the admin user is authenticated, they should be given a cookie containing a unique identifier. This cookie should be included in each request made by this user in order to validate their role and access to authorized resources on the server.
 
 There are many options:
-- session cookies
-- signed JWT
+- Session Cookies: The server creates a session when the user logs in, storing the user's ID and role securely in a server-side store (e.g., Redis, database).
+                   The client gets a random session ID in a cookie, which references this server-side session.
+                   Because the cookie only contains a random token, tampering provides no useful access.
+- Signed JWT (JSON Web Tokens): These tokens are generated on the server and cryptographically signed using a secret key or public/private key pair.
+                                They contain user data (like roles) and can be verified for integrity.
+                                If tampered with, the signature fails validation.
+                                Make sure to never store sensitive data in JWTs without encryption and always verify the signature.
 
-<NOTA> ampliar información sobre estas dos estrategias y ampliar si existe alguna más.
+Other best practices:
+- Use HTTPS to prevent man-in-the-middle tampering.
+- Mark cookies as HttpOnly and Secure to reduce client-side access and exposure.
+- Implement role-based access checks on the server for every sensitive operation.
 
+In all cases, never trust client-controlled data for enforcing security decisions.
