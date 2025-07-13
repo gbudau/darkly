@@ -165,7 +165,12 @@ After decrypting the MD5 hash, we get the password:
 Then we can use the username and password to log in in the http://$IP/index.php?page=signin page and get the flag.
 
 
-Finally, inspired by the name of the DB and given the weakness of the password, we realize that another way in which we could have obtained this flag would have been by brute force. So we are going to focus the explanation of this vulnerability from this point of view.
+Finally, inspired by the name of the DB and given the weakness of the password, we realize that another way in which we could have obtained this flag would have been by brute force.
+We create a script that brute forces the login form using the most common usernames and passwords:
+```bash
+ ./bruteforce_users_passwords.py --ip $IP
+```
+So we are going to focus the explanation of this vulnerability from this point of view.
 
 ------------------------------------------------------------------------------------
 
