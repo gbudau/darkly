@@ -10,7 +10,7 @@ root:437394baff5aa33daa618be47b75cb49
 
 We identify the hash as MD5 with the value qwerty123@
 
-With this discovered credentials, we realize there is an /admin path asking for a username and password
+With these discovered credentials, we realize there is an /admin path asking for a username and password
 
 We login at /admin with username root and password qwerty123@ and get the flag
 

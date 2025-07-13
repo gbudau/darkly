@@ -6,7 +6,7 @@ We inspect the network request and see that the rating is sent as a POST payload
 
 We try with different payloads until we find one that gives us the flag.
 
-curl 'http://192.168.1.148/index.php?page=survey' -X POST --data-raw 'sujet=1&valeur=11'
+curl 'http://$IP/index.php?page=survey' -X POST --data-raw 'sujet=1&valeur=11'
 
 Here we set the rating to 11, which is out of the range of 1 to 10.
 
