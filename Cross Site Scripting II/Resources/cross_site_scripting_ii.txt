@@ -2,13 +2,13 @@ We notice http://$IP/index.php?page=media&src=nsa loads the image on the page in
 
 We try with some simple XSS payloads, and they seem to be sanitized.
 
-We try with a base64 encoded payload, and it works:
+We try with a base64 encoded hacky payload, and it works:
 
 http://$IP/index.php?page=media&src=data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pgo=
 
 -----------------------------------------------------------------------------------------------
 
-XSS Prevention
+Reflected XSS Prevention
 
 1. Frontend
 As the frontend of the web application is where most (but not all) of the user input is taken from,

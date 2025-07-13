@@ -10,24 +10,24 @@ curl 'http://$IP/index.php?page=survey' -X POST --data-raw 'sujet=1&valeur=11'
 
 Here we set the rating to 11, which is out of the range of 1 to 10.
 
+We can also exploit this vulnerability by modifying the any input value in the form and then submit the form selecting that value.
 
 -----------------------------------------------------------------------------------------------
-
 
 How to prevent improper input validation:
 
 Input validation is performed to ensure only properly formed data is entering the workflow in an information system,
-preventing malformed data from persisting in the database and triggering malfunction of various downstream components.
+preventing malformed or invalid data from persisting in the database and triggering malfunction of various downstream components.
 Input validation should happen as early as possible in the data flow, preferably as soon as the data is received from the external party.
 
 Data from all potentially untrusted sources should be subject to input validation,
 including not only Internet-facing web clients but also backend feeds over extranets,
 from suppliers, partners, vendors or regulators, each of which may be compromised on their own and start sending malformed data.
 
-
-Input validation should be applied at both syntactic and semantic levels:
+Input validation should be applied at both syntactic, semantic and bussiness logic levels:
     1. Syntactic validation should enforce correct syntax of structured fields (e.g. SSN, date, currency symbol).
     2. Semantic validation should enforce correctness of their values in the specific business context (e.g. start date is before end date, price is within expected range).
+    3. Finally, data should be validated to ensure it meets the defined bussiness logic to prevent consumers take advance of our system in unintended ways. In this case, a valid user vote should be between 1 and 10.
 
 It is always recommended to prevent attacks as early as possible in the processing of the user's (attacker's) request.
 Input validation can be used to detect unauthorized input before it is processed by the application.
