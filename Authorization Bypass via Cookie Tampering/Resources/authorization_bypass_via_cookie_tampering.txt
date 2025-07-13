@@ -13,7 +13,7 @@ After refreshing the page we get a popup with the flag.
 
 -------------------------
 
-Mitigating authoization bypass via cookie tampering
+Mitigating authorization bypass via cookie tampering
 
 Do not expose resource authorization on the client side in a way that allows any user to manipulate their own permissions. These actions must always be handled on the server, correctly managing user roles and permissions.
 

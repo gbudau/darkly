@@ -7,7 +7,7 @@ We try the following payload:
 
 We submit the form and we get the flag.
 
-Additionally to this vulnerability, we've found a possible bug because it's possible to obtain the flag by just inserting the 'a' character in the Name field, which isn't any script, just a plain character. We believe this is due to a bad implementation of this flag vulenrability example.
+Additionally to this vulnerability, we've found a possible bug because it's possible to obtain the flag by just inserting the 'a' character in the Name field, which isn't any script, just a plain character. We believe this is due to a bad implementation of this flag vulnerability example.
 
 
 ---------------------------------------------------------------------------------------
