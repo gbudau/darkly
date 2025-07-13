@@ -6,13 +6,16 @@ We go to this page and inspect the source code and find the following html comme
             * <!-- Let's use this browser : "ft_bornToSec". It will help you a lot.-->
 
 We have the following idea:
-- When it says “You must come from,” it means we need to come from that page (using the Referer header).
-- When it says “Let’s use this browser,” it means we need to pretend we’re using that browser (using the User-Agent header).
+- When it says “You must come from,” it means the request should include a Referer header set to https://www.nsa.gov/.
+  This header tells the server where the request originated.
+  However, it's important to note that browsers may limit or omit the Referer based on the site's Referrer-Policy, which controls how much referrer information is sent for privacy reasons.
+- When it says “Let’s use this browser,” it means we need to pretend we’re using that browser using the User-Agent header to ft_bornToSec.
+  The User-Agent identifies the application, operating system, vendor, and/or version of the requesting user agent — but it can be easily spoofed, and servers should not rely on it for critical logic.
 
 Then, we use curl to do build this fetch query and we get the flag:
 
 ```bash
-curl -A ft_bornToSec --referer https://www.nsa.gov/ 'http://192.168.1.131/index.php?page=b7e44c7a40c5f80139f0a50f3650fb2bd8d00b0d24667c4c2ca32c88e13b758f' | grep flag
+curl -A ft_bornToSec --referer https://www.nsa.gov/ 'http://$IP/index.php?page=b7e44c7a40c5f80139f0a50f3650fb2bd8d00b0d24667c4c2ca32c88e13b758f' | grep flag
 ```
 
 -----------------------------------------------------
@@ -20,6 +23,3 @@ curl -A ft_bornToSec --referer https://www.nsa.gov/ 'http://192.168.1.131/index.
 Mitigating server side authentication bypass via header injection:
 
 Once again, we’re relying on information that can be manipulated from the client side. A real authentication system should be implemented to securely validate the user’s identity, instead of depending on HTTP headers that can be easily forged to access protected resources.
-
-<NOTA>: Ampliar algo más sobre cómo funciona el Referer header y se relaciona con la directiva Referrer-policy
-
