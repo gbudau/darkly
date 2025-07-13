@@ -1,5 +1,8 @@
 ## HOW
-        Descubrimos un formulario oculto en la página de recuperación de contraseñas (http://192.168.1.131/index.php?page=recover). Al inspeccionarlo vemos que se están pre cargando valores en el formulario, los cuales se a través del atributo "hidden". Al cambiar el valor del input del form (con cualquier valor) y enviarlo obtenemos el flag
+We discovered a hidden form on the password recovery page (http://$IP/index.php?page=recover).
+Upon inspecting it, we saw that values were being preloaded into the form through the "hidden" attribute.
+By changing the value of the form input (with any value) and submitting it, we obtained the flag.
 
-## FIX
-        No ocultar valores sensibles que puedan alterar el comportamiento de la aplicación en código de cliente. Este tipo de acciones se deben hacer siempre en backend de tal forma que un usuario no pueda manipularlo.
+##FIX
+Do not hide sensitive values that could alter the behavior of the application in client-side code.
+These types of actions should always be handled on the backend so that a user cannot manipulate them.
