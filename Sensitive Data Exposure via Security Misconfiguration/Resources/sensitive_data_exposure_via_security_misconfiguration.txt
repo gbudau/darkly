@@ -6,11 +6,7 @@ Disallow: /.hidden
 
 At /robots.txt we look inside /whatever path and going there we find an publicly accessible htpasswd file with the following content:
 
------------<NOTA> Completar información sobre robots.txt y htpasswd------------------------
-
 root:437394baff5aa33daa618be47b75cb49
-
-`htpasswd` file is used to protect access to restricted files and routes inside Apache servers. 
 
 We identify the hash as MD5 with the value qwerty123@
 
@@ -22,5 +18,16 @@ We login at /admin with username root and password qwerty123@ and get the flag
 
 Mitigating this attack sensitive data misconfiguration:
 
-Review the server configuration to deny access to these files, avoid placing sensitive files in public directories, and above all, do not add sensitive paths to the robots configuration.
+- Review the server configuration to deny access to these files.
+- Avoid placing sensitive files in public directories, .htpasswd should not be within the Web server's URI space -- that is, they should not be fetchable with a browser.
+- Do not add sensitive paths to the robots configuration.
 
+Notes:
+
+The robots.txt file is a standard used to communicate with web crawlers and other web robots.
+It allows website administrators to define rules about which parts of the site should not be crawled or indexed.
+However, these rules are merely advisory and should not be relied upon to protect sensitive resources, as they can easily be read by anyone.
+
+The .htpasswd file is used in combination with .htaccess to enforce basic HTTP authentication on Apache servers.
+It contains username and hashed password pairs.
+This file should never be publicly accessible, as it may expose hashed credentials that can be cracked offline.
