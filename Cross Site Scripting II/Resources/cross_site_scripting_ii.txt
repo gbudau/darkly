@@ -1,0 +1,92 @@
+We notice http://$IP/index.php?page=media&src=nsa loads the image on the page in an object tag.
+
+We try with some simple XSS payloads, and they seem to be sanitized.
+
+We try with a base64 encoded hacky payload, and it works:
+
+http://$IP/index.php?page=media&src=data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pgo=
+
+-----------------------------------------------------------------------------------------------
+
+Reflected XSS Prevention
+
+1. Frontend
+As the frontend of the web application is where most (but not all) of the user input is taken from,
+it is essential to sanitize and validate the user input on the front-end using JavaScript.
+
+2. Input Validation
+Check that the input is in the expected format. For example, if we are expecting a number, check that the input is a number.
+
+3. Input Sanitization
+In addition to input validation, we should always ensure that we do not allow any input with JavaScript code in it
+by escaping any special characters. For this, we can use the DOMPurify JavaScript library.
+
+4. Direct input
+We should always ensure that we never use user input directly within certain HTML tags, like:
+
+    JavaScript code <script></script>
+    CSS Style Code <style></style>
+    Tag/Attribute Fields <div name='INPUT'></div>
+    HTML Comments <!-- -->
+
+If user input goes into any of the above examples, it can inject malicious JavaScript code, which may lead to an XSS vulnerability.
+In addition to this, we should avoid using JavaScript functions that allow changing raw text of HTML fields, like:
+
+    DOM.innerHTML
+    DOM.outerHTML
+    document.write()
+    document.writeln()
+    document.domain
+
+And the following jQuery functions:
+
+    html()
+    parseHTML()
+    add()
+    append()
+    prepend()
+    after()
+    insertAfter()
+    before()
+    insertBefore()
+    replaceAll()
+    replaceWith()
+
+As these functions write raw text to the HTML code, if any user input goes into them,
+it may include malicious JavaScript code,which leads to an XSS vulnerability.
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+Back-end
+On the other end, we should also ensure that we prevent XSS vulnerabilities with measures on the back-end to prevent Stored and Reflected XSS vulnerabilities.
+Even though it had front-end input validation, this is not enough to prevent us from injecting a malicious payload into the form.
+So, we should have XSS prevention measures on the back-end as well.
+This can be achieved with Input and Output Sanitization and Validation, Server Configuration, and Back-end Tools that help prevent XSS vulnerabilities.
+
+1. Input Validation
+The input validation in the back-end is quite similar to the front-end. We can use Regex or library functions to ensure that the input field is what is expected
+If it does not match, then the back-end server will reject it and not display it.
+
+2. Input Sanitization
+When it comes to input sanitization, then the back-end plays a vital role, as front-end input sanitization can be easily bypassed by sending custom GET or POST requests.
+Luckily, there are very strong libraries for various back-end languages that can properly sanitize any user input, such that we ensure that no injection can occur.
+
+3. Output HTML Encoding
+Another important aspect to pay attention to in the back-end is Output Encoding.
+This means that we have to encode any special characters into their HTML codes,
+which is helpful if we need to display the entire user input without introducing an XSS vulnerability.
+
+4. Server Configuration
+
+In addition to the above, there are certain back-end web server configurations that may help in preventing XSS attacks, such as:
+
+    Using HTTPS across the entire domain.
+    Using XSS prevention headers.
+    Using the appropriate Content-Type for the page, like X-Content-Type-Options=nosniff.
+    Using Content-Security-Policy options, like script-src "self", which only allows locally hosted scripts.
+    Using the HttpOnly and Secure cookie flags to prevent JavaScript from reading cookies and only transport them over HTTPS.
+
+In addition to the above, having a good Web Application Firewall (WAF) can significantly reduce the chances of XSS exploitation,
+as it will automatically detect any type of injection going through HTTP requests and will automatically reject such requests.

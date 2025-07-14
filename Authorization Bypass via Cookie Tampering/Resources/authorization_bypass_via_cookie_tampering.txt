@@ -1,0 +1,36 @@
+We notice there is a cookie set with the value
+
+I_am_admin:"68934a3e9455fa72420237eb05902327"
+
+We search for what hash is used and find is MD5 and the plain value is "false"
+
+We generate a MD5 hash for "true" and change the cookie value to:
+
+I_am_admin:"b326b5062b2f0e69046810717534cb09"
+
+After refreshing the page we get a popup with the flag.
+
+
+-------------------------
+
+Mitigating authorization bypass via cookie tampering
+
+Do not expose resource authorization on the client side in a way that allows any user to manipulate their own permissions. These actions must always be handled on the server, correctly managing user roles and permissions.
+
+The way to fix this is that, once the admin user is authenticated, they should be given a cookie containing a unique identifier. This cookie should be included in each request made by this user in order to validate their role and access to authorized resources on the server.
+
+There are many options:
+- Session Cookies: The server creates a session when the user logs in, storing the user's ID and role securely in a server-side store (e.g., Redis, database).
+                   The client gets a random session ID in a cookie, which references this server-side session.
+                   Because the cookie only contains a random token, tampering provides no useful access.
+- Signed JWT (JSON Web Tokens): These tokens are generated on the server and cryptographically signed using a secret key or public/private key pair.
+                                They contain user data (like roles) and can be verified for integrity.
+                                If tampered with, the signature fails validation.
+                                Make sure to never store sensitive data in JWTs without encryption and always verify the signature.
+
+Other best practices:
+- Use HTTPS to prevent man-in-the-middle tampering.
+- Mark cookies as HttpOnly and Secure to reduce client-side access and exposure.
+- Implement role-based access checks on the server for every sensitive operation.
+
+In all cases, never trust client-controlled data for enforcing security decisions.

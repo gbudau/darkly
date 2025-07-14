@@ -1,0 +1,15 @@
+We notice there are some redirects for social media sites, for example http://192.168.1.131/index.php?page=redirect&site=twitter
+
+We change the url to http://192.168.1.131/index.php?page=redirect&site=something
+
+And we get a flag.
+
+--------------------------------
+
+Fixing bypass access control checks vulnerability
+
+- Do not trust client-modifiable inputs to access sensitive resources
+- Have an allow list of sites we trust that the user can navigate to using this mechanism.
+- If we don’t have an allow list, instead of forcing a redirect through a query parameter, link to the sites directly using anchor tags.
+
+This vulnerability falls into Broken Access Control: https://owasp.org/Top10/A01_2021-Broken_Access_Control/
